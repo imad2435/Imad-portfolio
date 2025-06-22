@@ -1,0 +1,26 @@
+<div id="admin-form-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-2xl max-h-screen overflow-y-auto">
+        <form hx-post="{{ request.path }}" hx-target="#content-area" hx-swap="innerHTML">
+            {% csrf_token %}
+            <h2 class="text-2xl font-bold mb-6 text-white">{% if form.instance.pk %}Edit Admin User{% else %}Add New Admin{% endif %}</h2>
+            
+            {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<p class="text-xs text-gray-500 mt-1">{{ field.help_text|safe }}</p>{% endif %}
+                {% for error in field.errors %}<p class="text-xs text-red-400 mt-1">{{ error }}</p>{% endfor %}
+            </div>
+            {% endfor %}
+
+            <div class="mt-8 flex justify-end space-x-4">
+                <button type="button" onclick="this.closest('#admin-form-modal').remove()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Cancel
+                </button>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    Save Admin
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="text-apex-white">
+
+    <!-- Hero Section -->
+    <header id="home" class="min-h-screen flex items-center justify-center text-center -mt-20">
+        <div class="container mx-auto px-6 py-24 flex flex-col items-center">
+            {% if info.profile_image %}
+                <div class="relative mb-6">
+                    <img src="{{ info.profile_image.url }}" alt="{{ info.name }}" class="w-36 h-36 rounded-full mx-auto border-4 border-apex-purple shadow-lg shadow-apex-purple/30">
+                    <div class="absolute inset-0 rounded-full ring-4 ring-apex-purple/50 animate-ping"></div>
+                </div>
+            {% endif %}
+            
+            {% if info %}
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight">{{ info.name }}</h1>
+                <p class="mt-3 text-2xl md:text-3xl text-apex-purple font-semibold">{{ info.title }}</p>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-apex-gray">{{ info.bio|linebreaks }}</p>
+                
+                {# --- THIS IS THE NEW AND CORRECTED BUTTON SECTION --- #}
+                <div class="mt-10 flex flex-wrap justify-center items-center gap-4">
+                    {% if info.cv %}
+                        {# CV Button with Gradient and Glow #}
+                        <a href="{{ info.cv.url }}" 
+                           class="text-white font-bold py-3 px-8 rounded-full 
+                                  bg-gradient-to-r from-purple-600 to-blue-500 
+                                  hover:from-purple-700 hover:to-blue-600 
+                                  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 
+                                  shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 
+                                  transform hover:scale-105 transition duration-300">
+                            Download CV
+                        </a>
+                    {% endif %}
+                    {% if info.github_url %}
+                        {# GitHub Button with Subtle Dark Style #}
+                        <a href="{{ info.github_url }}" target="_blank" 
+                           class="bg-gray-800/50 border border-gray-600 text-gray-300 font-semibold py-3 px-8 rounded-full 
+                                  hover:bg-gray-700 hover:border-gray-500 
+                                  transform hover:scale-105 transition duration-300">
+                            GitHub
+                        </a>
+                    {% endif %}
+                    {% if info.linkedin_url %}
+                        {# LinkedIn Button with Subtle Dark Style #}
+                        <a href="{{ info.linkedin_url }}" target="_blank" 
+                           class="bg-gray-800/50 border border-gray-600 text-gray-300 font-semibold py-3 px-8 rounded-full 
+                                  hover:bg-gray-700 hover:border-gray-500 
+                                  transform hover:scale-105 transition duration-300">
+                            LinkedIn
+                        </a>
+                    {% endif %}
+                </div>
+
+            {% else %}
+                <p class="text-apex-accent">Please add your Personal Info in the admin panel.</p>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-apex-dark">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for project in projects %}
+                    <div class="bg-apex-card rounded-2xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border border-white/10 hover:shadow-2xl hover:shadow-apex-purple/20">
+                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-white">{{ project.title }}</h3>
+                            <p class="text-apex-gray mb-4 text-sm">{{ project.description }}</p>
+                            <div class="mb-4 flex flex-wrap gap-2">
+                                {% for tech in project.technologies.all %}
+                                    <span class="inline-block bg-apex-dark rounded-full px-3 py-1 text-xs font-semibold text-apex-gray border border-white/10">{{ tech.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="flex justify-between items-center mt-6">
+                                {% if project.live_link %}
+                                    <a href="{{ project.live_link }}" target="_blank" class="text-apex-purple hover:underline font-semibold">View Live</a>
+                                {% endif %}
+                                {% if project.github_link %}
+                                    <a href="{{ project.github_link }}" target="_blank" class="text-apex-gray hover:underline">GitHub Repo</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-center col-span-full text-apex-gray">No projects to display yet. Please add some in the admin panel.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-apex-card">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16">My Skills</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                {% for skill in skills %}
+                    <div class="bg-apex-dark text-apex-white text-lg font-semibold px-6 py-3 rounded-full shadow-md border border-white/10">
+                        {{ skill.name }}
+                    </div>
+                {% empty %}
+                    <p class="text-center text-apex-gray">No skills added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-16">Experience & Education</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Work Experience Column -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-8 text-center text-white">Work Experience</h3>
+                    <div class="relative border-l-2 border-apex-purple/30 pl-8">
+                        {% for exp in work_experiences %}
+                            <div class="mb-10 relative">
+                                <div class="absolute -left-[34px] top-1 w-4 h-4 bg-apex-purple rounded-full border-4 border-apex-dark ring-4 ring-apex-purple"></div>
+                                <p class="font-bold text-lg text-white">{{ exp.title }}</p>
+                                <p class="text-apex-purple font-semibold">{{ exp.company }}</p>
+                                <p class="text-sm text-apex-gray">{{ exp.start_date|date:"F Y" }} - {% if exp.end_date %}{{ exp.end_date|date:"F Y" }}{% else %}Present{% endif %}</p>
+                                <div class="mt-2 text-apex-gray leading-relaxed">{{ exp.description|linebreaks }}</div>
+                            </div>
+                        {% empty %}
+                            <p class="text-apex-gray">No work experience added yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Education Column -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-8 text-center text-white">Education</h3>
+                    <div class="relative border-l-2 border-apex-gray/30 pl-8">
+                         {% for edu in education_experiences %}
+                            <div class="mb-10 relative">
+                                <div class="absolute -left-[34px] top-1 w-4 h-4 bg-apex-gray rounded-full border-4 border-apex-dark ring-4 ring-apex-gray"></div>
+                                <p class="font-bold text-lg text-white">{{ edu.title }}</p>
+                                <p class="text-apex-gray font-semibold">{{ edu.company }}</p>
+                                <p class="text-sm text-apex-gray">{{ edu.start_date|date:"F Y" }} - {% if edu.end_date %}{{ edu.end_date|date:"F Y" }}{% else %}Present{% endif %}</p>
+                                <div class="mt-2 text-apex-gray leading-relaxed">{{ edu.description|linebreaks }}</div>
+                            </div>
+                        {% empty %}
+                            <p class="text-apex-gray">No education history added yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact-form" class="py-20 bg-apex-card">
+        <div class="container mx-auto px-6">
+            <div class="lg:w-1/2 md:w-2/3 mx-auto">
+                <h2 class="text-4xl font-bold text-center mb-4 text-white">Contact Me</h2>
+                <p class="mb-10 text-center text-apex-gray">Have a question or want to work together? Send me a message!</p>
+                
+                <form method="post" action="/#contact-form">
+                    {% csrf_token %}
+                    <div class="flex flex-col gap-6">
+                        <div>
+                            {{ form.name.errors }}
+                            <input name="{{ form.name.name }}" id="{{ form.name.id_for_label }}" type="text" placeholder="Your Name" class="w-full bg-apex-dark rounded-lg border border-white/10 focus:border-apex-purple focus:ring-2 focus:ring-apex-purple/50 text-base outline-none text-apex-white py-3 px-4 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div>
+                            {{ form.email.errors }}
+                            <input name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" type="email" placeholder="Your Email" class="w-full bg-apex-dark rounded-lg border border-white/10 focus:border-apex-purple focus:ring-2 focus:ring-apex-purple/50 text-base outline-none text-apex-white py-3 px-4 leading-8 transition-colors duration-200 ease-in-out">
+                        </div>
+                        <div>
+                            {{ form.message.errors }}
+                             <textarea name="{{ form.message.name }}" id="{{ form.message.id_for_label }}" placeholder="Your Message" class="w-full bg-apex-dark rounded-lg border border-white/10 focus:border-apex-purple focus:ring-2 focus:ring-apex-purple/50 h-40 text-base outline-none text-apex-white py-3 px-4 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center mt-8">
+                        <button type="submit" class="bg-apex-purple text-white font-bold py-3 px-10 rounded-full hover:scale-105 transform transition duration-300 shadow-lg shadow-apex-purple/30">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

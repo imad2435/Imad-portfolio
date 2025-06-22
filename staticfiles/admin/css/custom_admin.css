@@ -1,0 +1,45 @@
+/* khan/imad/theme/static/admin/css/custom_admin.css */
+
+/* Overriding Bootstrap/Jazzmin variables with our Apex colors */
+:root {
+    --primary: #6C63FF !important;
+    /* Apex Purple */
+    --secondary: #9E9E9E !important;
+    /* Apex Gray */
+    --success: #6C63FF !important;
+    /* Apex Purple for success actions */
+    --info: #FF6B6B !important;
+    /* Apex Accent Red */
+    --warning: #FF6B6B !important;
+    /* Apex Accent Red */
+
+    /* Change the background of the main content area */
+    --body-bg: #1E1E2D !important;
+    /* Apex Dark */
+
+    /* Change the background of cards, tables, and sidebars */
+    --card-bg: #2A2A3A !important;
+    /* Apex Card */
+    --table-bg: #2A2A3A !important;
+    /* Apex Card */
+    --sidebar-base-bg: #2A2A3A !important;
+    /* Apex Card */
+}
+
+/* Make links use our purple color */
+a,
+a:hover {
+    color: #6C63FF !important;
+}
+
+/* Style the top navbar and brand */
+.navbar-brand-text {
+    font-weight: bold !important;
+}
+
+/* Make table headers stand out more */
+.table>thead>tr>th {
+    color: #F3F4F6;
+    /* Apex White */
+    font-weight: bold;
+}

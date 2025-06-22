@@ -1,0 +1,28 @@
+<div id="skill-form-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-lg" hx-target="this">
+        
+        {# The form no longer needs the hx-on attribute, the view handles the trigger #}
+        <form hx-post="{{ request.path }}" hx-swap="outerHTML">
+            {% csrf_token %}
+            <h2 class="text-2xl font-bold mb-6 text-white">{% if form.instance.pk %}Edit Skill{% else %}Add New Skill{% endif %}</h2>
+            
+            <div class="space-y-4">
+                {# We can use form.as_p for simple forms, but will manually render for consistency #}
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-1">{{ form.name.label }}</label>
+                {{ form.name }}
+                {% for error in form.name.errors %}<p class="text-xs text-red-400 mt-1">{{ error }}</p>{% endfor %}
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-4">
+                {# --- CORRECTED CANCEL BUTTON --- #}
+                <button type="button" onclick="this.closest('#skill-form-modal').remove()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Cancel
+                </button>
+                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    Save Skill
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

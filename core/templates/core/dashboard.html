@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans" hx-get="{% url 'check-new-messages' %}" hx-trigger="every 5s" x-data="{ showNotification: false }">
+    <div x-show="showNotification" @new-message.window="showNotification = true; setTimeout(() => showNotification = false, 5000)" x-transition class="fixed top-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg z-50">🚀 New contact message received!</div>
+    <div class="flex h-screen">
+        <aside class="w-64 bg-gray-800 p-6 flex flex-col justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-white mb-8">Dashboard</h1>
+                <nav class="space-y-4">
+                    <a href="#" class="block text-lg text-gray-400 hover:text-white" hx-get="{% url 'load-personal-info' %}" hx-target="#content-area" hx-trigger="click, info-updated from:body" hx-swap="innerHTML">Personal Info</a>
+                    <a href="#" class="block text-lg text-gray-400 hover:text-white" hx-get="{% url 'load-skills' %}" hx-target="#content-area" hx-trigger="click, skills-changed from:body" hx-swap="innerHTML">Skills</a>
+                    <a href="#" class="block text-lg text-gray-400 hover:text-white" hx-get="{% url 'load-projects' %}" hx-target="#content-area" hx-trigger="click, projects-changed from:body" hx-swap="innerHTML">Projects</a>
+                    <a href="#" class="block text-lg text-gray-400 hover:text-white" hx-get="{% url 'load-messages' %}" hx-target="#content-area" hx-trigger="click, newMessage from:body" hx-swap="innerHTML">Messages</a>
+                    <!-- In dashboard.html's <nav> section -->
+                     <!-- In dashboard.html's sidebar <nav> section -->
+                   <a href="#" class="block text-lg text-gray-400 hover:text-white" 
+hx-get="{% url 'load-experiences' %}" 
+hx-target="#content-area" 
+hx-trigger="click, experiences-changed from:body"
+hx-swap="innerHTML">Experiences</a>
+                    <a href="#" class="block text-lg text-gray-400 hover:text-white" hx-get="{% url 'load-admins' %}" hx-target="#content-area">Admins</a>
+                </nav>
+            </div>
+            <a href="{% url 'dashboard_logout' %}" class="block text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</a>
+        </aside>
+        <main class="flex-1 p-10 overflow-y-auto"><div id="content-area">{% include 'core/partials/personal_info_card.html' %}</div></main>
+    </div>
+    <div id="modal-container"></div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold">Personal Information</h2>
+    {% if info %}
+    <button hx-get="{% url 'update-personal-info' info.pk %}" hx-target="#modal-container" hx-swap="innerHTML"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+        Edit Info
+    </button>
+    {% endif %}
+</div>
+
+<div class="bg-gray-800 rounded-lg shadow p-6">
+    {% if info %}
+    <div class="flex items-center space-x-6">
+        {% if info.profile_image %}
+        <img class="h-24 w-24 rounded-full object-cover" src="{{ info.profile_image.url }}" alt="Profile image">
+        {% endif %}
+        <div>
+            <h3 class="text-2xl font-bold text-white">{{ info.name }}</h3>
+            <p class="text-lg text-indigo-400">{{ info.title }}</p>
+        </div>
+    </div>
+    <div class="mt-6 border-t border-gray-700 pt-6">
+        <dl>
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-400">Bio</dt>
+                <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">{{ info.bio|linebreaks }}</dd>
+            </div>
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-400">Email address</dt>
+                <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">{{ info.email }}</dd>
+            </div>
+            <div class="py-3 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-400">Links</dt>
+                <dd class="mt-1 text-sm text-gray-200 sm:mt-0 sm:col-span-2">
+                    <a href="{{ info.github_url }}" target="_blank" class="text-indigo-400 hover:underline">GitHub</a> | 
+                    <a href="{{ info.linkedin_url }}" target="_blank" class="text-indigo-400 hover:underline">LinkedIn</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    {% else %}
+    <p class="text-gray-500">No Personal Info has been added yet. You should add one!</p>
+    {# We could add a "Create" button here if needed, but for now we assume one always exists #}
+    {% endif %}
+</div>
