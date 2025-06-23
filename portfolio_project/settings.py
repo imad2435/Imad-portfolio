@@ -69,8 +69,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-MEDIA_URL = '/media/'
+# In settings.py, under STATIC & MEDIA FILES
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 # --- DJANGO DEFAULTS ---
