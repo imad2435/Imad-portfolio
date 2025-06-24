@@ -2,8 +2,8 @@
     <div class="bg-gray-800 rounded-lg shadow-xl p-8 w-full max-w-2xl max-h-screen overflow-y-auto" hx-target="this">
         
         {# The form no longer needs the hx-on attribute, the view handles the trigger #}
-        <form hx-post="{{ request.path }}" hx-encoding="multipart/form-data" hx-swap="outerHTML">
-            {% csrf_token %}
+        <form hx-post="{{ request.path }}" hx-encoding="multipart/form-data" hx-target="#content-area" hx-swap="innerHTML">
+                       {% csrf_token %}
             <h2 class="text-2xl font-bold mb-6 text-white">{% if project %}Edit Project{% else %}Add New Project{% endif %}</h2>
             
             <div class="space-y-4">
